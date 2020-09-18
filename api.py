@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 import time
-from flask import Flask, abort, request, jsonify, g, url_for
+from flask import Flask, abort, request, jsonify, g, url_for, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_httpauth import HTTPBasicAuth
 import jwt
@@ -57,6 +57,9 @@ def verify_password(username_or_token, password):
     g.user = user
     return True
 
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 @app.route('/api/users', methods=['POST'])
 def new_user():

@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>REST</title>
+    <script>
+        function apiReq() {
+            var reqObj = new Object();
+            reqObj.username = document.getElementById('username').value;
+            reqObj.password = document.getElementById('password').value;
+            console.log("This is the object that is being sent to the server (BEFORE its converted to JSON):", reqObj)
+            console.log("This is the object that is being sent to the server (AFTER  its converted to JSON):", JSON.stringify(reqObj))
+            console.log("This is it's type:", typeof (JSON.stringify(reqObj)))
+
+            fetch('/api/users', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Origin': '*'
+                },
+                body: JSON.stringify(reqObj),
+                //credentials: "same-origin"
+                credentials: "include"
+            })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((resp) => {
+                    console.log("This is the object that is being returned from the server (after it has been converted from JSON three lines up)", resp)
+                    hint = JSON.parse(JSON.stringify(resp));
+                })
+                .catch((err) => {
+                    // Code called when an error occurs during the request
+                    alert('Error: ' + err.message);
+                });
+
+        }
+
+        //curl -u miguel:python -i -X GET http://127.0.0.1:5000/api/resource
+        function resource() {
+            console.log("in resource...");
+            let username = 'miguel';
+            let password = 'opensesame';
+            fetch('/api/resource', {
+                method: "GET"
+                ,
+                headers: {
+                    "Content-Type": "text/plain",
+                    'Authorization': 'Basic ' + btoa(username + ":" + password),
+                },
+                //credentials: "same-origin"
+                credentials: "include"
+            })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((resp) => {
+                    console.log(resp)
+                })
+                .catch((err) => {
+                    // Code called when an error occurs during the request
+                    alert('Error: ' + err.message);
+                });
+        }
+
+        var tokenGlobal = "";
+
+        function getToken() {
+            console.log("in resource...");
+            let username = 'miguel';
+            let password = 'opensesame';
+            fetch('/api/token', {
+                method: "GET"
+                ,
+                headers: {
+                    "Content-Type": "text/plain",
+                    'Authorization': 'Basic ' + btoa(username + ":" + password),
+                },
+                //credentials: "same-origin"
+                credentials: "include"
+            })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((resp) => {
+                    console.log(resp)
+                    tokenGlobal = resp.token
+                    console.log(tokenGlobal)
+                })
+                .catch((err) => {
+                    // Code called when an error occurs during the request
+                    alert('Error: ' + err.message);
+                });
+        }
+
+        function useToken() {
+            console.log("in use token...", tokenGlobal);
+
+            fetch('/api/resource', {
+                method: "GET"
+                ,
+                headers: {
+                    "Content-Type": "text/plain",
+                    'Authorization': 'token ' + tokenGlobal
+                },
+                //credentials: "same-origin"
+                credentials: "include"
+            })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((resp) => {
+                    console.log(resp)
+                })
+                .catch((err) => {
+                    // Code called when an error occurs during the request
+                    alert('Error: ' + err.message);
+                });
+        }
+
+        function useTokenX() {
+            console.log("in resource...");
+            let username = tokenGlobal;
+            let password = 'unused';
+            fetch('/api/resource', {
+                method: "GET"
+                ,
+                headers: {
+                    "Content-Type": "text/plain",
+                    'Authorization': 'Basic ' + btoa(username + ":" + password),
+                },
+                //credentials: "same-origin"
+                credentials: "include"
+            })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((resp) => {
+                    console.log(resp)
+                })
+                .catch((err) => {
+                    // Code called when an error occurs during the request
+                    alert('Error: ' + err.message);
+                });
+        }
+
+    </script>
+</head>
+
+<body>
+    <h2>TEST API </h2>
+    <hr>
+    Create a user in the db (use username: miguel, passowrd: opensesame)<br>
+    api/users<br>
+    Username: <input type="text" id="username">
+    Password: <input type="text" id="password">
+    <button onclick="apiReq()">Make API Request to api/users</button>
+    <hr>
+    Get user info back (method sends username "miguel" password: "opensesame"<br>
+    /api/resource <br>
+    <button onclick="resource()">api\resource</button>
+    <hr>
+    Get token sends miguel opensesame credentials<br>
+    <button onclick="getToken()">api\token</button>
+    <hr>
+    Making request to /resource using token that was returned from
+    above get token request <br>
+    <button onclick="useToken()">api\resource using token</button>
+    <button onclick="useTokenX()">api\resource using tokenX</button>
+
+</body>
+
+</html>

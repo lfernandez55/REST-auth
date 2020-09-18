@@ -3,6 +3,27 @@ REST-auth
 
 Companion application to my [RESTful Authentication with Flask](http://blog.miguelgrinberg.com/post/restful-authentication-with-flask) article.
 
+------------
+Running on Python 3.8 was running into a time.clock error.  Had to 
+change three files in venv to get it to work.  These include:
+
+I.
+C:\Users\Luke_Lenovo\Documents\GitHub\REST-auth\venv\Lib\site-packages\flask_sqlalchemy\__init__.py
+
+        # _timer = time.clock
+        _timer = time.process_time
+II.
+C:\Users\Luke_Lenovo\Documents\GitHub\REST-auth\venv\Lib\site-packages\pip\_vendor\requests\sessions.py
+
+        # preferred_clock = time.clock
+        _timer = time.process_time
+
+III.
+C:\Users\Luke_Lenovo\Documents\GitHub\REST-auth\venv\Lib\site-packages\sqlalchemy\util\compat.py
+
+    # time_func = time.clock
+    _timer = time.process_time
+
 Installation
 ------------
 
