@@ -4,8 +4,11 @@ REST-auth
 Companion application to my [RESTful Authentication with Flask](http://blog.miguelgrinberg.com/post/restful-authentication-with-flask) article.
 
 ------------
-Running on Python 3.8 was running into a time.clock error.  Had to 
-change three files in venv to get it to work.  These include:
+Running on Python 3.8 was running into a time.clock error.  
+Solution found at:  https://stackoverflow.com/questions/58569361/attributeerror-module-time-has-no-attribute-clock-in-python-3-8 
+Had to 
+change three files in venv to get it to work.  
+These include:
 
 I.
 C:\Users\Luke_Lenovo\Documents\GitHub\REST-auth\venv\Lib\site-packages\flask_sqlalchemy\__init__.py
