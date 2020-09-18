@@ -93,32 +93,9 @@
                 });
         }
 
+        
+
         function useToken() {
-            console.log("in use token...", tokenGlobal);
-
-            fetch('/api/resource', {
-                method: "GET"
-                ,
-                headers: {
-                    "Content-Type": "text/plain",
-                    'Authorization': 'token ' + tokenGlobal
-                },
-                //credentials: "same-origin"
-                credentials: "include"
-            })
-                .then((response) => {
-                    return response.json();
-                })
-                .then((resp) => {
-                    console.log(resp)
-                })
-                .catch((err) => {
-                    // Code called when an error occurs during the request
-                    alert('Error: ' + err.message);
-                });
-        }
-
-        function useTokenX() {
             console.log("in resource...");
             let username = tokenGlobal;
             let password = 'unused';
@@ -149,24 +126,30 @@
 
 <body>
     <h2>TEST API </h2>
+    <h3>To see what's going on make sure u have a console open</h3>
     <hr>
     Create a user in the db (use username: miguel, passowrd: opensesame)<br>
-    api/users<br>
+    This user might already be in the db.<br>
     Username: <input type="text" id="username">
     Password: <input type="text" id="password">
     <button onclick="apiReq()">Make API Request to api/users</button>
     <hr>
-    Get user info back (method sends username "miguel" password: "opensesame"<br>
+    When the below button is pressed it sends sends username "miguel" password: "opensesame"
+    which are hardcoded in the fetch request to the server.  The server responds with
+    a json<br>
     /api/resource <br>
     <button onclick="resource()">api\resource</button>
     <hr>
-    Get token sends miguel opensesame credentials<br>
+    When the following button is pressed the fetch sends miguel opensesame credentials to
+    the server and the server responds with a token<br>
     <button onclick="getToken()">api\token</button>
     <hr>
     Making request to /resource using token that was returned from
-    above get token request <br>
+    above get token request.  Notice that we are still accessing /api/resource as in
+    api\resource call above.  But this time we use username = token and password = whatever (
+        the password is ignored)
+    ) <br>
     <button onclick="useToken()">api\resource using token</button>
-    <button onclick="useTokenX()">api\resource using tokenX</button>
 
 </body>
 
