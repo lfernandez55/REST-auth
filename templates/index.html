@@ -93,7 +93,7 @@
                 });
         }
 
-        
+
 
         function useToken() {
             console.log("in resource...");
@@ -121,6 +121,42 @@
                 });
         }
 
+        function getName() {
+            fetch('/getName', {
+                method: "GET"
+            })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((resp) => {
+                    console.log("Obj returned from server", resp)
+                })
+                .catch((err) => {
+                    alert('Error: ' + err.message);
+                });
+
+        }
+
+        // async function getNameUsingAwait() {
+        //         try {
+        //             const response = await fetch('/getName', { method: "GET" })
+        //             const resp = await response.json();
+        //             console.log("Obj returned from server", resp)
+        //         } catch (error) {
+        //             console.log('Fetch error: ', error);
+        //         }
+        // }
+
+        const getNameUsingAwait =  async () => {
+                try {
+                    const response = await fetch('/getName')
+                    const resp = await response.json();
+                    console.log("Obj returned from server", resp)
+                } catch (error) {
+                    console.log('Fetch error: ', error);
+                }
+        }
+
     </script>
 </head>
 
@@ -135,7 +171,7 @@
     <button onclick="apiReq()">Make API Request to api/users</button>
     <hr>
     When the below button is pressed it sends sends username "miguel" password: "opensesame"
-    which are hardcoded in the fetch request to the server.  The server responds with
+    which are hardcoded in the fetch request to the server. The server responds with
     a json<br>
     /api/resource <br>
     <button onclick="resource()">api\resource</button>
@@ -145,12 +181,30 @@
     <button onclick="getToken()">api\token</button>
     <hr>
     Making request to /resource using token that was returned from
-    above get token request.  Notice that we are still accessing /api/resource as in
-    api\resource call above.  But this time we use username = token and password = whatever (
-        the password is ignored)
+    above get token request. Notice that we are still accessing /api/resource as in
+    api\resource call above. But this time we use username = token and password = whatever (
+    the password is ignored)
     ) <br>
     <button onclick="useToken()">api\resource using token</button>
 
+
+
+    <button onclick="getName()">getName (using fetch then)</button>
+    <button onclick="getNameUsingAwait()">getName (using await)</button>
+    <button id="button2">butt2</button>
+    <script>
+            let butt2 = document.getElementById("button2")
+            butt2.addEventListener('click', async () => {
+                try {
+                    const response = await fetch('/getName')
+                    const resp = await response.json();
+                    console.log("Obj returned from server", resp)
+                } catch (error) {
+                    console.log('Fetch error: ', error);
+                }
+
+            });
+    </script>
 </body>
 
 </html>

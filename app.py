@@ -97,6 +97,13 @@ def get_auth_token():
 def get_resource():
     return jsonify({'data': 'Hello, %s!' % g.user.username})
 
+@app.route('/getName')
+def get_name():
+    print("in getName view....")
+    output = {"name": ""}
+    return jsonify(output)
+
+
 
 if __name__ == '__main__':
     if not os.path.exists('db.sqlite'):
